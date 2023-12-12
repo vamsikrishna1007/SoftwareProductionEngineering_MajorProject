@@ -1,15 +1,23 @@
-version : '3'
-services : 
-  frontend : 
-    image : leelavamsikrishna/frontend:latest
-    ports : 
+version: '3'
+services:
+  frontend:
+    image: leelavamsikrishna/frontend:latest
+    ports:
       - '3000:3000'
-    depends_on : 
+    depends_on:
       - backend
-  backend : 
-    image : leelavamsikrishna/backend:latest
-    ports :
+    networks:
+      - mynetwork
+  backend:
+    image: leelavamsikrishna/backend:latest
+    ports:
       - '8000:8000'
-    environment : 
-      - MONGO_URL=mongodb+srv://leelavamsikrishna:OAWDMTEPKaAq0qXN@krishna.jlriiuy.mongodb.net/doctorapp
-      - JWT_SECRET=1234567890
+    environment:
+      - MONGO_URL="mongodb+srv://leelavamsikrishna:OAWDMTEPKaAq0qXN@krishna.jlriiuy.mongodb.net/doctorapp"
+      - JWT_SECRET="1234567890"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
