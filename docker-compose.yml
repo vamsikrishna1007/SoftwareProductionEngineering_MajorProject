@@ -9,7 +9,7 @@ services :
   backend : 
     image : leelavamsikrishna/backend:latest
     ports :
-      - '4000:4000'
+      - '8000:8000'
     environment : 
       - MONGO_URL=mongodb+srv://leelavamsikrishna:OAWDMTEPKaAq0qXN@krishna.jlriiuy.mongodb.net/doctorapp
-      - JWT=123456789
+      - JWT_SECRET=1234567890
