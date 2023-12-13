@@ -41,14 +41,25 @@ const Users = () => {
       render: (text, record) => <span>{record.isDoctor ? "Yes" : "No"}</span>,
     },
     {
-      title: "Actions",
+    title: "Actions",
       dataIndex: "actions",
       render: (text, record) => (
         <div className="d-flex">
-          <button className="btn btn-danger">Block</button>
+          <button
+            className="btn btn-danger"
+            onClick={(event) => {
+              const button = event.target;
+              button.classList.toggle("btn-danger");
+              button.classList.toggle("btn-success");
+              button.innerText = button.innerText === "Block" ? "Unblock" : "Block";
+            }}
+          >
+            Block
+          </button>
         </div>
       ),
-    },
+          
+    }
   ];
 
   return (

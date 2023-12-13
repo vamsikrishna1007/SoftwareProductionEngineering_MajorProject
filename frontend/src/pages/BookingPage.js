@@ -100,52 +100,120 @@ const BookingPage = () => {
   }, []);
   return (
     <Layout>
-      <h3>Booking Page</h3>
-      <div className="container m-2">
-        {doctors && (
-          <div>
-            <h4>
-              Dr.{doctors.firstName} {doctors.lastName}
-            </h4>
-            <h4>Fees : {doctors.consaltationfees}</h4>
-            <h4>
-              Timings : {doctors.timings && doctors.timings[0]} -{" "}
-              {doctors.timings && doctors.timings[1]}{" "}
-            </h4>
-            <div className="d-flex flex-column w-50">
-              <DatePicker
-                aria-required={"true"}
-                className="m-2"
-                format="DD-MM-YYYY"
-                onChange={(value) => {
-                  setDate(moment(value).format("DD-MM-YYYY"));
-                }}
-              />
-              <TimePicker
-                aria-required={"true"}
-                format="HH:mm"
-                className="mt-3"
-                onChange={(value) => {
-                  setTime(moment(value).format("HH:mm"));
-                }}
-              />
+      <div style={styles.container}>
+        <h3 style={styles.heading}>Booking Page</h3>
+        <div className="container m-2" style={styles.contentContainer}>
+          {doctors && (
+            <div style={styles.doctorInfoContainer}>
+              <h4 style={styles.doctorName}>
+                Dr.{doctors.firstName} {doctors.lastName}
+              </h4>
+              <h4 style={styles.fees}>Fees : {doctors.consaltationfees}</h4>
+              <h4 style={styles.timings}>
+                Timings : {doctors.timings && doctors.timings[0]} -{" "}
+                {doctors.timings && doctors.timings[1]}{" "}
+              </h4>
+              <div className="d-flex flex-column w-50">
+                <DatePicker
+                  aria-required={"true"}
+                  className="m-2"
+                  format="DD-MM-YYYY"
+                  onChange={(value) => {
+                    setDate(moment(value).format("DD-MM-YYYY"));
+                  }}
+                  style={styles.datePicker}
+                />
+                <TimePicker
+                  aria-required={"true"}
+                  format="HH:mm"
+                  className="mt-3"
+                  onChange={(value) => {
+                    setTime(moment(value).format("HH:mm"));
+                  }}
+                  style={styles.timePicker}
+                />
 
-              <button
-                className="btn btn-primary mt-2"
-                onClick={handleAvailability}
-              >
-                Check Availability
-              </button>
+                <button
+                  className="btn btn-primary mt-2"
+                  onClick={handleAvailability}
+                  style={styles.checkAvailabilityButton}
+                >
+                  Check Availability
+                </button>
 
-              <button className="btn btn-dark mt-2" onClick={handleBooking}>
-                Book Now
-              </button>
+                <button
+                  className="btn btn-dark mt-2"
+                  onClick={handleBooking}
+                  style={styles.bookNowButton}
+                >
+                  Book Now
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </Layout>
   );
+};
+
+const styles = {
+  container: {
+    padding: "20px",
+  },
+  heading: {
+    color: "#333",
+    fontSize: "24px",
+    marginBottom: "20px",
+  },
+  contentContainer: {
+    borderRadius: "8px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  },
+  doctorInfoContainer: {
+    padding: "20px",
+  },
+  doctorName: {
+    color: "#333",
+    fontSize: "24px",
+    marginBottom: "10px",
+  },
+  fees: {
+    color: "#555",
+    fontSize: "18px",
+    marginBottom: "10px",
+  },
+  timings: {
+    color: "#555",
+    fontSize: "18px",
+    marginBottom: "20px",
+  },
+  datePicker: {
+    width: "100%",
+    marginBottom: "10px",
+  },
+  timePicker: {
+    width: "100%",
+    marginBottom: "10px",
+  },
+  checkAvailabilityButton: {
+    backgroundColor: "#4CAF50",
+    color: "white",
+    padding: "10px 15px",
+    fontSize: "16px",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  },
+  bookNowButton: {
+    backgroundColor: "#333",
+    color: "white",
+    padding: "10px 15px",
+    fontSize: "16px",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  },
 };
 
 export default BookingPage;

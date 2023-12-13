@@ -14,6 +14,10 @@ import Profile from "./pages/doctor/Profile";
 import BookingPage from "./pages/BookingPage";
 import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
+import HealthTracker from "./components/HealthTracker"; 
+
+import SymptomsChecker from "./components/SymtomsChecker";
+
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -39,6 +43,24 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/health-tracker"
+              element={
+                <ProtectedRoute>
+                  <HealthTracker />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/symptoms-checker"
+              element={
+                <ProtectedRoute>
+                  <SymptomsChecker />
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/admin/doctors"
               element={

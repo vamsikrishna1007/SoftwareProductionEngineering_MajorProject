@@ -15,10 +15,17 @@ export const userMenu = [
     icon: "fa-solid fa-user-doctor",
   },
   {
-    name: "Profile",
-    path: "/profile",
-    icon: "fa-solid fa-user",
+  name: "Health Tracker",
+    path: "/health-tracker",
+    icon: "fa-solid fa-heart",
   },
+  {
+    name: "Symptoms Checker",
+    path: "/symptoms-checker",
+    icon: "fa-solid fa-clipboard-check",
+  }
+
+  
 ];
 
 // admin menu
@@ -39,9 +46,5 @@ export const adminMenu = [
     path: "/admin/users",
     icon: "fa-solid fa-user",
   },
-  {
-    name: "Profile",
-    path: "/profile",
-    icon: "fa-solid fa-user",
-  },
+ 
 ];
