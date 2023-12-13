@@ -1,19 +1,21 @@
 const doctorModel = require("../models/doctorModel");
 const userModel = require("../models/userModels");
+const logger = require('../logger/logger'); // Import your logger module
 
 const getAllUsersController = async (req, res) => {
   try {
     const users = await userModel.find({});
+    logger.info("Retrieved all users successfully.");
     res.status(200).send({
       success: true,
       message: "users data list",
       data: users,
     });
   } catch (error) {
-    console.log(error);
+    logger.error("Error while fetching users:", error);
     res.status(500).send({
       success: false,
-      message: "erorr while fetching users",
+      message: "error while fetching users",
       error,
     });
   }
@@ -22,13 +24,14 @@ const getAllUsersController = async (req, res) => {
 const getAllDoctorsController = async (req, res) => {
   try {
     const doctors = await doctorModel.find({});
+    logger.info("Retrieved all doctors successfully.");
     res.status(200).send({
       success: true,
       message: "Doctors Data list",
       data: doctors,
     });
   } catch (error) {
-    console.log(error);
+    logger.error("Error while getting doctors data:", error);
     res.status(500).send({
       success: false,
       message: "error while getting doctors data",
@@ -51,16 +54,17 @@ const changeAccountStatusController = async (req, res) => {
     });
     user.isDoctor = status === "approved" ? true : false;
     await user.save();
+    logger.info("Account status updated successfully.");
     res.status(201).send({
       success: true,
       message: "Account Status Updated",
       data: doctor,
     });
   } catch (error) {
-    console.log(error);
+    logger.error("Error in Account Status:", error);
     res.status(500).send({
       success: false,
-      message: "Eror in Account Status",
+      message: "Error in Account Status",
       error,
     });
   }

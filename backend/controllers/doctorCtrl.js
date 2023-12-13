@@ -1,14 +1,19 @@
 const appointmentModel = require("../models/appointmentModel");
 const doctorModel = require("../models/doctorModel");
 const userModel = require("../models/userModels");
+const logger = require('../logger/logger');
+
 const getDoctorInfoController = async (req, res) => {
   try {
     const doctor = await doctorModel.findOne({ userId: req.body.userId });
     res.status(200).send({
       success: true,
-      message: "doctor data fetch success",
+      message: "Doctor data fetch success",
       data: doctor,
     });
+
+    // Logging
+    logger.info("Doctor data fetched successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -16,10 +21,12 @@ const getDoctorInfoController = async (req, res) => {
       error,
       message: "Error in Fetching Doctor Details",
     });
+
+    // Logging
+    logger.info(`Error in getDoctorInfoController: ${error.message}`);
   }
 };
 
-// update doc profile
 const updateProfileController = async (req, res) => {
   try {
     const doctor = await doctorModel.findOneAndUpdate(
@@ -31,6 +38,9 @@ const updateProfileController = async (req, res) => {
       message: "Doctor Profile Updated",
       data: doctor,
     });
+
+    // Logging
+    logger.info("Doctor profile updated successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -38,18 +48,23 @@ const updateProfileController = async (req, res) => {
       message: "Doctor Profile Update issue",
       error,
     });
+
+    // Logging
+    logger.info(`Error in updateProfileController: ${error.message}`);
   }
 };
 
-//get single docotor
 const getDoctorByIdController = async (req, res) => {
   try {
     const doctor = await doctorModel.findOne({ _id: req.body.doctorId });
     res.status(200).send({
       success: true,
-      message: "Sigle Doc Info Fetched",
+      message: "Single Doc Info Fetched",
       data: doctor,
     });
+
+    // Logging
+    logger.info("Single doctor info fetched successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -57,6 +72,9 @@ const getDoctorByIdController = async (req, res) => {
       error,
       message: "Error in Single doctor info",
     });
+
+    // Logging
+    logger.info(`Error in getDoctorByIdController: ${error.message}`);
   }
 };
 
@@ -71,6 +89,9 @@ const doctorAppointmentsController = async (req, res) => {
       message: "Doctor Appointments fetch Successfully",
       data: appointments,
     });
+
+    // Logging
+    logger.info("Doctor appointments fetched successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -78,6 +99,9 @@ const doctorAppointmentsController = async (req, res) => {
       error,
       message: "Error in Doc Appointments",
     });
+
+    // Logging
+    logger.info(`Error in doctorAppointmentsController: ${error.message}`);
   }
 };
 
@@ -93,13 +117,16 @@ const updateStatusController = async (req, res) => {
     notifcation.push({
       type: "status-updated",
       message: `Your appointment request has been updated ${status}`,
-      onCLickPath: "/doctor-appointments",
+      onClickPath: "/doctor-appointments",
     });
     await user.save();
     res.status(200).send({
       success: true,
       message: "Appointment Status Updated",
     });
+
+    // Logging
+    logger.info("Appointment status updated successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -107,6 +134,9 @@ const updateStatusController = async (req, res) => {
       error,
       message: "Error In Update Status",
     });
+
+    // Logging
+    logger.info(`Error in updateStatusController: ${error.message}`);
   }
 };
 

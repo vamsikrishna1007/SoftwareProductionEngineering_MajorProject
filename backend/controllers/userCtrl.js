@@ -3,8 +3,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const doctorModel = require("../models/doctorModel");
 const appointmentModel = require("../models/appointmentModel");
+const logger = require('../logger/logger'); // Assuming this is your logger module
 const moment = require("moment");
-//register callback
+
+// register callback
 const registerController = async (req, res) => {
   try {
     const exisitingUser = await userModel.findOne({ email: req.body.email });
@@ -20,12 +22,18 @@ const registerController = async (req, res) => {
     const newUser = new userModel(req.body);
     await newUser.save();
     res.status(201).send({ message: "Register Sucessfully", success: true });
+
+    // Logging
+    logger.info("User registered successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
       message: `Register Controller ${error.message}`,
     });
+
+    // Logging
+    logger.info(`Error in Register Controller: ${error.message}`);
   }
 };
 
@@ -34,12 +42,15 @@ const loginController = async (req, res) => {
   try {
     const user = await userModel.findOne({ email: req.body.email });
     if (!user) {
+      logger.info('User not found');
       return res
         .status(200)
         .send({ message: "user not found", success: false });
     }
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) {
+
+      logger.info('Invalid Email or Password');
       return res
         .status(200)
         .send({ message: "Invlid EMail or Password", success: false });
@@ -48,9 +59,16 @@ const loginController = async (req, res) => {
       expiresIn: "1d",
     });
     res.status(200).send({ message: "Login Success", success: true, token });
+
+    // Logging
+    logger.info("User logged in successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: `Error in Login CTRL ${error.message}` });
+
+    // Logging
+    console.log("Before logger.error");
+    logger.info(`Error in Login Controller: ${error.message}`);
   }
 };
 
@@ -68,6 +86,9 @@ const authController = async (req, res) => {
         success: true,
         data: user,
       });
+
+      // Logging
+      logger.info("User authentication successful");
     }
   } catch (error) {
     console.log(error);
@@ -76,10 +97,12 @@ const authController = async (req, res) => {
       success: false,
       error,
     });
+
+    // Logging
+    logger.info(`Error in Auth Controller: ${error.message}`);
   }
 };
 
-// APpply DOctor CTRL
 const applyDoctorController = async (req, res) => {
   try {
     const newDoctor = await doctorModel({ ...req.body, status: "pending" });
@@ -100,6 +123,9 @@ const applyDoctorController = async (req, res) => {
       success: true,
       message: "Doctor Account Applied SUccessfully",
     });
+
+    // Logging
+    logger.info("Doctor application submitted successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -107,10 +133,12 @@ const applyDoctorController = async (req, res) => {
       error,
       message: "Error WHile Applying For Doctotr",
     });
+
+    // Logging
+    logger.info(`Error in Apply Doctor Controller: ${error.message}`);
   }
 };
 
-//notification ctrl
 const getAllNotificationController = async (req, res) => {
   try {
     const user = await userModel.findOne({ _id: req.body.userId });
@@ -125,6 +153,9 @@ const getAllNotificationController = async (req, res) => {
       message: "all notification marked as read",
       data: updatedUser,
     });
+
+    // Logging
+    logger.info("All notifications marked as read");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -132,10 +163,12 @@ const getAllNotificationController = async (req, res) => {
       success: false,
       error,
     });
+
+    // Logging
+    logger.info(`Error in Get All Notification Controller: ${error.message}`);
   }
 };
 
-// delete notifications
 const deleteAllNotificationController = async (req, res) => {
   try {
     const user = await userModel.findOne({ _id: req.body.userId });
@@ -148,6 +181,9 @@ const deleteAllNotificationController = async (req, res) => {
       message: "Notifications Deleted successfully",
       data: updatedUser,
     });
+
+    // Logging
+    logger.info("All notifications deleted successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -155,10 +191,12 @@ const deleteAllNotificationController = async (req, res) => {
       message: "unable to delete all notifications",
       error,
     });
+
+    // Logging
+    logger.info(`Error in Delete All Notification Controller: ${error.message}`);
   }
 };
 
-//GET ALL DOC
 const getAllDocotrsController = async (req, res) => {
   try {
     const doctors = await doctorModel.find({ status: "approved" });
@@ -167,6 +205,9 @@ const getAllDocotrsController = async (req, res) => {
       message: "Docots Lists Fetched Successfully",
       data: doctors,
     });
+
+    // Logging
+    logger.info("List of doctors fetched successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -174,10 +215,12 @@ const getAllDocotrsController = async (req, res) => {
       error,
       message: "Errro WHile Fetching DOcotr",
     });
+
+    // Logging
+    logger.info(`Error in Get All Doctors Controller: ${error.message}`);
   }
 };
 
-//BOOK APPOINTMENT
 const bookeAppointmnetController = async (req, res) => {
   try {
     req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
@@ -196,6 +239,9 @@ const bookeAppointmnetController = async (req, res) => {
       success: true,
       message: "Appointment Book succesfully",
     });
+
+    // Logging
+    logger.info("Appointment booked successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -203,10 +249,12 @@ const bookeAppointmnetController = async (req, res) => {
       error,
       message: "Error While Booking Appointment",
     });
+
+    // Logging
+    logger.info(`Error in Booking Appointment Controller: ${error.message}`);
   }
 };
 
-// booking bookingAvailabilityController
 const bookingAvailabilityController = async (req, res) => {
   try {
     const date = moment(req.body.date, "DD-MM-YY").toISOString();
@@ -234,6 +282,9 @@ const bookingAvailabilityController = async (req, res) => {
         message: "Appointments available",
       });
     }
+
+    // Logging
+    logger.info("Booking availability checked successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -241,6 +292,9 @@ const bookingAvailabilityController = async (req, res) => {
       error,
       message: "Error In Booking",
     });
+
+    // Logging
+    logger.info(`Error in Booking Availability Controller: ${error.message}`);
   }
 };
 
@@ -254,6 +308,9 @@ const userAppointmentsController = async (req, res) => {
       message: "Users Appointments Fetch SUccessfully",
       data: appointments,
     });
+
+    // Logging
+    logger.info("User appointments fetched successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -261,6 +318,9 @@ const userAppointmentsController = async (req, res) => {
       error,
       message: "Error In User Appointments",
     });
+
+    // Logging
+    logger.info(`Error in User Appointments Controller: ${error.message}`);
   }
 };
 
