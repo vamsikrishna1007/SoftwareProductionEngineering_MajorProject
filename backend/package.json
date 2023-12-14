@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node server.js",
     "server": "nodemon server.js",
     "frontend": "cd ../frontend && npm start",
@@ -14,6 +14,7 @@
   "author": "SLVK ",
   "license": "CC0-1.0",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "concurrently": "^7.6.0",
@@ -26,5 +27,10 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.22",
     "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }

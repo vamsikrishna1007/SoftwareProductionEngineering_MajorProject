@@ -32,3 +32,4 @@ app.listen(PORT, () => {
       .bgCyan.white
   );
 });
+module.exports = app;
