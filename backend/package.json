@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha tests --exit",
     "start": "node server.js",
     "server": "nodemon server.js",
     "frontend": "cd ../frontend && npm start",
