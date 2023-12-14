@@ -14,7 +14,7 @@ services:
       - '8000:8000'
     environment:
       - MONGO_URL=mongodb+srv://leelavamsikrishna:OAWDMTEPKaAq0qXN@krishna.jlriiuy.mongodb.net/doctorapp
-      - JWT_SECRET=1234567890
+      - JWT_SECRET=abcfuoff
     networks:
       - mynetwork
 
