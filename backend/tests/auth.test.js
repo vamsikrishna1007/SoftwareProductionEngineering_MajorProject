@@ -30,8 +30,8 @@ describe('Registration and Login API Tests', () => {
   describe('Registration API', () => {
     it('should register a new user', async () => {
       const res = await request.post('/api/v1/user/register').send({
-        name: 'prdfufduckjdfijhag1',
-        email: 'spfiodjfkjljhkldd.dunki@example.com',
+        name: 'prdfufhellbitchhag1',
+        email: 'spfiodfojkfkjljhkldd.dunki@example.com',
         password: 'password123',
       });
 
